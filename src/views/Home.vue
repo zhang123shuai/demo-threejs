@@ -23,7 +23,7 @@ export default {
     width: 200px;
   }
   .right{
-    flex: 1;
+    width: calc(100% - 200px);
   }
 }
 </style>
