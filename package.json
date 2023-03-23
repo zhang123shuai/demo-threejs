@@ -9,7 +9,11 @@
   },
   "dependencies": {
     "@types/three": "^0.139.0",
-    "core-js": "^3.29.1",
+    "3d-force-graph": "^1.67.6",
+    "three-spritetext": "^1.5.3",
+    "core-js": "^3.6.5",
+    "d3": "^6.2.0",
+    "d3-context-menu": "^1.1.2",
     "element-ui": "^2.15.13",
     "three": "^0.139.2",
     "vue": "^2.7.14",
@@ -21,7 +25,6 @@
     "@vue/cli-plugin-router": "^4.5.19",
     "@vue/cli-plugin-vuex": "^4.5.19",
     "@vue/cli-service": "^4.5.19",
-    "d3": "^7.8.2",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.7.14"

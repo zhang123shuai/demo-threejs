@@ -91,6 +91,8 @@ export default {
       if (nodeStrength !== undefined) forceNode.strength(nodeStrength);
       if (linkStrength !== undefined) forceLink.strength(linkStrength);
 
+      console.log(nodes,"nodes")
+      console.log(links,"links")
       const simulation = d3
         .forceSimulation(nodes)
         .force("link", forceLink)
@@ -106,6 +108,23 @@ export default {
       //重写，node和link的容器
       const svg = d3
         .select(".container")
+        .call(
+          d3.zoom().on("zoom", (event) => {
+            // console.log(event)
+            var scale = event.transform.k,
+              translate = [event.transform.x, event.transform.y];
+            svg.attr(
+              "transform",
+              "translate(" +
+                translate[0] +
+                ", " +
+                translate[1] +
+                ") scale(" +
+                scale +
+                ")"
+            );
+          })
+        )
         .append("svg")
         .attr("width", width)
         .attr("height", height)
