@@ -134,7 +134,7 @@ export default {
         .attr("r", function (d) {
           // 每次访问nodes的一项数据
           // console.log(d)
-          let size = 16;
+          let size = 20;
           //   switch (d.label) {
           //     case _this.labels[0]:
           //       break;
