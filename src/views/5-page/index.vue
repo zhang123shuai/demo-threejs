@@ -1,6 +1,17 @@
 <template>
   <div class="box_warp">
-    <svg id="svg" width="100%" height="100%"></svg>
+    <svg id="svg" width="70%" height="100%"></svg>
+    <div class="deil_warp">
+      <div>{{ selectNodeData.name }}</div>
+      <div v-for="(item, key) in selectNodeData.properties" :key="item">
+        <span style="margin-right: 8px">{{
+          (nodeObjMap[key] ? nodeObjMap[key] : key) + ":"
+        }}</span>
+        <span style="text-align: right"
+          ><b>{{ item }}</b></span
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -9,6 +20,14 @@ import * as d3 from "d3";
 export default {
   data() {
     return {
+      // 节点属性对应的标签名称
+      nodeObjMap: {
+        address: "注册地址",
+        captial: "注册资本",
+        credit_code: "信用代码",
+        name: "节点名称",
+        setup_time: "注册日期",
+      },
       //获取数据
       data: require("./records.json"),
       nodes: [], //点
@@ -18,6 +37,8 @@ export default {
       linkTypes: ["", "type", "locate", "export"],
 
       svgDom: null, // svg的DOM元素 => d3.select('#svg1')
+      selectNodeData: {}, // 选中节点的详细信息展示
+      isNodeClicked: false, // 是否点击（选中）节点
       /* eslint-disable */
       // 自定义图例及颜色（数组保证一一对应）
       // colors		图例颜色（9个颜色）
@@ -102,6 +123,12 @@ export default {
       // svg.selectAll('g').remove()
 
       var svg = _this.svgDom
+        .on("click", () => {
+          // console.log(this.isNodeClicked)
+          this.isNodeClicked = false;
+          // 移除所有样式
+          this.clearGraphStyle();
+        })
         // 给画布绑定zoom事件（缩放、平移）
         .call(
           d3.zoom().on("zoom", (event) => {
@@ -220,7 +247,39 @@ export default {
         .attr("name", (d) => d.properties.name)
         .attr("id", (d) => d.id)
         .call(this.drag(simulation))
-        .on("click", nodeClick);
+        .on("click", nodeClick)
+        .on("mouseenter", function (event) {
+          // console.dir(this)
+          const node = d3.select(this);
+          // node.attr("class", "fixed")
+          // node.classed("fixed", true)
+          // console.log(node)
+          //获取被选中元素的名字
+          let name = node.attr("name");
+          let id = node.attr("id");
+          let color = node.attr("fill");
+          // console.log(name, id, color)
+          //设置#info h4样式的颜色为该节点的颜色，文本为该节点name
+          _this.$set(_this.selectNodeData, "id", id);
+          _this.$set(_this.selectNodeData, "name", name);
+          _this.$set(_this.selectNodeData, "color", color);
+
+          //遍历查找id对应的属性
+          for (let item of _this.nodes) {
+            if (item.id == id) {
+              // for(var key in item.properties)
+              _this.$set(_this.selectNodeData, "properties", item.properties);
+            }
+          }
+          // 遍历节点，并调整图的样式
+          _this.changeGraphStyle(name);
+        })
+        .on("mouseleave", (event) => {
+          console.log(this.isNodeClicked);
+          if (!this.isNodeClicked) {
+            this.clearGraphStyle();
+          }
+        });
       // 显示所有的文本
       // 设置大小、填充颜色、名字、text()设置文本
       // 使用 attr("text-anchor", "middle")设置文本居中
@@ -239,7 +298,46 @@ export default {
           return textBreaking(d3.select(this), d.properties.name);
         })
         .call(this.drag(simulation))
-        .on("click", nodeClick);
+        .on("click", nodeClick)
+        .on("mouseenter", function (event) {
+          // console.dir(this)
+          const text = d3.select(this);
+          // console.log(text)
+          // 获取被选中元素的名字
+          let name = text.attr("name");
+          _this.$set(_this.selectNodeData, "name", name);
+
+          // 根据文本名称获取节点的id
+          for (let item of _this.nodes) {
+            if (item.properties.name == name) {
+              // 设置节点id和标签属性
+              _this.$set(_this.selectNodeData, "id", item.id);
+              _this.$set(_this.selectNodeData, "properties", item.properties);
+              // 根据节点类型label获取节点颜色
+              let index = 0;
+              switch (item.label) {
+                case _this.labels[0]:
+                  break;
+                case _this.labels[1]:
+                  index = 1;
+                  break;
+                case _this.labels[2]:
+                  index = 2;
+                  break;
+                default:
+                  index = 3;
+                  break;
+              }
+              _this.$set(_this.selectNodeData, "color", _this.colors[index]);
+            }
+          }
+          _this.changeGraphStyle(name);
+        })
+        .on("mouseleave", (event) => {
+          if (!this.isNodeClicked) {
+            this.clearGraphStyle();
+          }
+        });
       // 圆增加title
       node.append("title").text((d) => d.properties.name);
 
@@ -280,7 +378,7 @@ export default {
               distance += 20;
               break;
           }
-          return distance * 2;
+          return distance * 4;
         });
 
       /******************************************
@@ -408,6 +506,9 @@ export default {
         // 直接通过this.selectNodeData拿到节点信息
         event.cancelBubble = true;
         event.stopPropagation(); // 阻止事件冒泡
+        const name = _this.selectNodeData.name;
+        _this.isNodeClicked = true;
+        _this.changeGraphStyle(name);
         console.log("点击了");
 
         return false;
@@ -442,6 +543,122 @@ export default {
         .on("start", dragstarted)
         .on("drag", dragged)
         .on("end", dragended);
+    },
+    // 根据当前节点名称来更改图样式
+    changeGraphStyle(name) {
+      // console.log(this.isNodeClicked)
+      // 选择#svg1 .nodes中所有的circle，再增加个class
+      this.svgDom
+        .select(".nodes")
+        .selectAll("circle")
+        .attr("class", (d) => {
+          // 节点属性name是否等于name，返回fixed（激活选中样式）
+          if (d.properties.name == name) {
+            return "fixed";
+          }
+          // 当前节点返回空，否则其他节点循环判断是否被隐藏起来(CSS设置隐藏)
+          else {
+            // links链接的起始节点进行判断,如果其id等于name则显示这类节点
+            // 注意: graph = data
+            for (var i = 0; i < this.links.length; i++) {
+              // 如果links的起点等于name，并且终点等于正在处理的则显示
+              if (
+                this.links[i]["source"].properties.name == name &&
+                this.links[i]["target"].id == d.id
+              ) {
+                return "active";
+              }
+              if (
+                this.links[i]["target"].properties.name == name &&
+                this.links[i]["source"].id == d.id
+              ) {
+                return "active";
+              }
+            }
+            return this.isNodeClicked ? "inactive" : "";
+          }
+        });
+      // 处理相邻的文字是否隐藏
+      this.svgDom
+        .select(".texts")
+        .selectAll("text")
+        .attr("class", (d) => {
+          // 节点属性name是否等于name，返回fixed（激活选中样式）
+          if (d.properties.name == name) {
+            return "";
+          }
+          // 当前节点返回空，否则其他节点循环判断是否被隐藏起来(CSS设置隐藏)
+          else {
+            // links链接的起始节点进行判断,如果其id等于name则显示这类节点
+            // 注意: graph = data
+            for (var i = 0; i < this.links.length; i++) {
+              // 如果links的起点等于name，并且终点等于正在处理的则显示
+              if (
+                this.links[i]["source"].properties.name == name &&
+                this.links[i]["target"].id == d.id
+              ) {
+                return "";
+              }
+              if (
+                this.links[i]["target"].properties.name == name &&
+                this.links[i]["source"].id == d.id
+              ) {
+                return "";
+              }
+            }
+            return this.isNodeClicked ? "inactive" : "";
+          }
+        });
+      // 处理相邻的边line是否隐藏 注意 ||
+      this.svgDom
+        .select(".links")
+        .selectAll("line")
+        .attr("class", (d) => {
+          if (
+            d.source.properties.name == name ||
+            d.target.properties.name == name
+          ) {
+            return "active";
+          } else {
+            return this.isNodeClicked ? "inactive" : "";
+          }
+        })
+        .attr("marker-end", (d) => {
+          if (
+            d.source.properties.name == name ||
+            d.target.properties.name == name
+          ) {
+            return "url(#posActMarker)";
+          } else {
+            return "url(#posMarker)";
+          }
+        });
+      // 处理相邻的边上文字是否隐藏 注意 ||
+      this.svgDom
+        .select(".linkTexts")
+        .selectAll("text")
+        .attr("class", (d) => {
+          if (
+            d.source.properties.name == name ||
+            d.target.properties.name == name
+          ) {
+            return "active";
+          } else {
+            return this.isNodeClicked ? "inactive" : "";
+          }
+        });
+    },
+    clearGraphStyle() {
+      // 移除所有样式
+      this.svgDom.select(".nodes").selectAll("circle").attr("class", "");
+      this.svgDom.select(".texts").selectAll("text").attr("class", "");
+      this.svgDom
+        .select(".links")
+        .selectAll("line")
+        .attr("class", "")
+        .attr("marker-end", "url(#posMarker)");
+      this.svgDom.select(".linkTexts").selectAll("text").attr("class", "");
+      // d3.select(this).attr('class', '')
     },
     // 绘制关系箭头
     addMarkers() {
@@ -488,10 +705,16 @@ export default {
 .box_warp {
   width: 100%;
   height: 100%;
+  display: flex;
+  .deil_warp {
+    width: 30%;
+    height: 100%;
+    background-color: aliceblue;
+  }
 }
 </style>
 <style lang="scss">
-$opacity: 0.15; /* 显示的不透明度 */
+$opacity: 0.15; /* 显示的不透明度 0.15 */
 $activeColor: #1e90ff; /* 激活的颜色 */
 svg {
   margin: 20px 0px;

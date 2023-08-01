@@ -59,6 +59,34 @@ const routes = [
       meta: {
         title: '7-知识图谱d3练习'
       },
+    }, {
+      path: '/8-page',
+      name: '8-page',
+      component: () => import('@/views/8-page/index.vue'),
+      meta: {
+        title: '8-echarts中国地图'
+      },
+    },{
+      path: '/9-page',
+      name: '9-page',
+      component: () => import('@/views/9-page/index.vue'),
+      meta: {
+        title: '9-echarts中国地图'
+      },
+    },{
+      path: '/10-page',
+      name: '10-page',
+      component: () => import('@/views/10-page/index.vue'),
+      meta: {
+        title: '10-echarts柱状图'
+      },
+    },{
+      path: '/11-page',
+      name: '11-page',
+      component: () => import('@/views/11-page/index.vue'),
+      meta: {
+        title: '11-图片裁剪'
+      },
     }]
   }
 ]

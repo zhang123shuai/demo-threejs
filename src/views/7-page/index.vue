@@ -46,7 +46,7 @@ export default {
       links: [
         { source: 0, target: 1, type: "手机号" },
         { source: 0, target: 2, type: "身份证号" },
-        { source: 0, target: 3, type: "妹妹" },
+        // { source: 0, target: 3, type: "妹妹" },
         { source: 3, target: 4, type: "手机号" },
         { source: 3, target: 5, type: "身份证号" },
       ], //边-线
@@ -485,7 +485,7 @@ export default {
   height: 100%;
 }
 </style>
-  <style lang="scss">
+  <!-- <style lang="scss">
 $opacity: 0.15; /* 显示的不透明度 */
 $activeColor: #1e90ff; /* 激活的颜色 */
 svg {
@@ -548,4 +548,4 @@ svg {
     opacity: $opacity;
   }
 }
-</style>
+</style> -->

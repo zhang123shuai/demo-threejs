@@ -7,7 +7,7 @@
           -->
       <el-row v-for="(item, index) in ruleForm.ruleDetails" :key="index">
         <!-- 连接符 -->
-        <el-col style="min-height: 10px;" :span="5">
+        <el-col style="min-height: 10px" :span="5">
           <el-form-item
             label=" "
             :prop="`ruleDetails.${index}.relation`"
@@ -95,6 +95,27 @@
         >
       </el-form-item>
     </el-form>
+    <p>
+      =========================================分界线=========================================
+    </p>
+    <div>
+      <el-table :data="tableData" stripe style="width: 100%">
+        <el-table-column prop="date" label="日期" width="180">
+        </el-table-column>
+        <el-table-column prop="name" label="姓名" :sortable="true" :sort-method="sortByDate" width="180">
+        </el-table-column>
+        <el-table-column prop="address" label="地址"> </el-table-column>
+      </el-table>
+    </div>
+    <p>
+      =========================================分界线=========================================
+    </p>
+    <div class="divAfter"></div>
+    =========================================分界线=========================================<br />
+    拼接：<div v-html="htmlContent"></div>
+    1111111<span style="color:red;">222222</span>333333
+    =========================================分界线=========================================<br />
+
   </div>
 </template>
   
@@ -179,10 +200,40 @@ export default {
           label: "或",
         },
       ],
+      tableData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎王",
+          address: "上海市普陀区金沙江路 1518 弄",
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎王小虎",
+          address: "上海市普陀区金沙江路 1517 弄",
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄",
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎王小",
+          address: "上海市普陀区金沙江路 1516 弄",
+        },
+      ],
+      //html拼接字段
+      htmlContent:'',
+      //字段List
+      // contentLis:[
+      //   {name:}
+      // ],
     };
   },
 
-  mounted() {},
+  mounted() {
+    this.htmlContentFun();
+  },
   methods: {
     add() {
       this.ruleForm.ruleDetails.push({
@@ -205,8 +256,46 @@ export default {
         }
       });
     },
+    //排序
+    sortByDate(obj1, obj2){
+      let val1 = obj1.name.length;
+      let val2 = obj2.name.length;
+      return val2 - val1;
+    },
+    htmlContentFun(){
+      this.htmlContent = '1111111<span style="color:red;">222222</span>333333';
+    }
   },
 };
 </script>
+<style lang="scss" scoped>
+.el-table {
+  /deep/.el-table__row {
+    .el-table__cell:not(:first-child)::after {
+      content: "|";
+      position: absolute;
+      display: block;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+.divAfter {
+  width: 200px;
+  height: 100px;
+  background-color: antiquewhite;
+  margin-left: 100px;
+}
+.divAfter::after {
+  content: "";
+  display: inline-block;
+  border: 1px solid #000;
+  height: 50px;
+  margin: 25px 0 0 199px;
+}
+// .divAfter::before{
+//   content:'|'
+// }
+</style>
   
   
