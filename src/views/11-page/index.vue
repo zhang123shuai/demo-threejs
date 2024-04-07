@@ -1,49 +1,44 @@
 <template>
-    <div class="customCropper-container">
-      <div class="cropper-title">自定义裁剪</div>
-      <div class="cropper-container">
-        <div class="operate-picture">
-          <PictureCropper
-            ref="picture"
-            :initialImg="initialImg"
-            :cropperHeight="cropperHeight"
-            :cropperWidth="cropperWidth"
-            :autoCropWidth="autoCropWidth"
-            :autoCropHeight="autoCropHeight"
-            @picturePreview="picturePreview"
-          />
-          <div class="operate-button">
-            <el-upload
-              class="upload-button"
-              action="/"
-              :before-upload="beforeUploadAction"
-              accept="image/*"
-            >
-              <!-- <el-button class="common-button blue-border">上传图片</el-button> -->
-            </el-upload>
-            <el-button 
-              class="common-button blue-border" 
-              @click="rotateLeft"
-            >向左旋转</el-button>
-            <el-button 
-              class="common-button blue-border" 
-              @click="rotateRight"
-            >向右旋转</el-button>
-            <el-button 
-              class="common-button blue-border" 
-              @click="zoom(1)"
-            >放大</el-button>
-            <el-button 
-              class="common-button blue-border"
-              @click="zoom(-1)"
-            >缩小</el-button>
-            <el-button 
-              class="common-button blue-border" 
-              @click="download"
-            >下载图片</el-button>
-          </div>
+  <div class="customCropper-container">
+    <div class="cropper-title">自定义裁剪</div>
+    <div class="cropper-container">
+      <div class="operate-picture">
+        <PictureCropper
+          ref="picture"
+          :initialImg="initialImg"
+          :cropperHeight="cropperHeight"
+          :cropperWidth="cropperWidth"
+          :autoCropWidth="autoCropWidth"
+          :autoCropHeight="autoCropHeight"
+          @picturePreview="picturePreview"
+        />
+        <div class="operate-button">
+          <el-upload
+            class="upload-button"
+            action="/"
+            :before-upload="beforeUploadAction"
+            accept="image/*"
+          >
+            <!-- <el-button class="common-button blue-border">上传图片</el-button> -->
+          </el-upload>
+          <el-button class="common-button blue-border" @click="rotateLeft"
+            >向左旋转</el-button
+          >
+          <el-button class="common-button blue-border" @click="rotateRight"
+            >向右旋转</el-button
+          >
+          <el-button class="common-button blue-border" @click="zoom(1)"
+            >放大</el-button
+          >
+          <el-button class="common-button blue-border" @click="zoom(-1)"
+            >缩小</el-button
+          >
+          <el-button class="common-button blue-border" @click="download"
+            >下载图片</el-button
+          >
         </div>
-        <!-- <div class="preview-picture">
+      </div>
+      <!-- <div class="preview-picture">
           <div class="picture">
             <div class="preview-container" :style="previews.div">
               <img class="preview-img" :src="previews.url" :style="previews.img">
@@ -57,97 +52,151 @@
               @click="uploadAvatar('blob')"
           >上传头像</el-button>
         </div> -->
-      </div>
     </div>
-  </template>
+    <!-- 语音 -->
+    <div>
+      <button @click="startRecording" :disabled="recording">开始录音</button>
+      <button @click="stopRecording" :disabled="!recording">停止录音</button>
+      <button
+        @click="downloadRecording"
+        :disabled="recordedChunks.length === 0"
+      >
+        下载录音
+      </button>
+    </div>
+  </div>
+</template>
    
   <script>
-  import PictureCropper from './pictureCropper.vue'
-  export default {
-    name: 'customCropper',
-    components:{
-      PictureCropper,
+import PictureCropper from "./pictureCropper.vue";
+export default {
+  name: "customCropper",
+  components: {
+    PictureCropper,
+  },
+  data() {
+    return {
+      initialImg: require("@/assets/shushu.jpg"), // 本地图片用require,链接地址不用
+      previews: {},
+      cropperHeight: "500px", // 裁剪图片容器高度
+      cropperWidth: "800px", // 裁剪图片容器宽度
+      autoCropWidth: 200,
+      autoCropHeight: 200,
+      //语音
+      recording: false,
+      mediaRecorder: null,
+      recordedChunks: [],
+    };
+  },
+  methods: {
+    picturePreview(data) {
+      this.previews = data;
     },
-    data(){
-      return{
-        initialImg: require('@/assets/shushu.jpg'),  // 本地图片用require,链接地址不用
-        previews: {},
-        cropperHeight: '500px',  // 裁剪图片容器高度
-        cropperWidth: '800px',   // 裁剪图片容器宽度
-        autoCropWidth: 200,
-        autoCropHeight: 200,
-      }
+    // 向左旋转
+    rotateLeft() {
+      this.$refs.picture.rotateLeft();
     },
-    methods:{
-      picturePreview(data){
-        this.previews = data
-      },
-      // 向左旋转
-      rotateLeft(){
-        this.$refs.picture.rotateLeft()
-      },
-      // 向左旋转
-      rotateRight(){
-        this.$refs.picture.rotateLeft()
-      },
-      // 放大、缩小
-      zoom(num){
-        num = num || 1
-        this.$refs.picture.changeScale(num)
-      },
-      // 下载图片
-      async download(){
-        let aLink = document.createElement('a')
-        aLink.download = '下载裁剪图片'
-        let data = await this.$refs.picture.getBase64()
-        aLink.href = data
-        aLink.click()
-      },
-      // 上传图片之前
-      beforeUploadAction(file){
-        return new Promise((resolve, reject) => {
-          // 转换为blob
-          var reader = new FileReader()
-          let reg = /\.jpg$|\.jpeg$|\.gif$|\.png$/i
-          // 转化为base64
-          reader.readAsDataURL(file)
-          let name = file.name
-          if (reg.test(name)) {
-            reader.onload = (e) => {
-              let data
-              if (typeof e.target.result === 'object') {
-                data = window.URL.createObjectURL(new Blob([e.target.result]))
-              } else {
-                data = e.target.result
-              }
-              this.initialImg = data
-              resolve(data)
+    // 向左旋转
+    rotateRight() {
+      this.$refs.picture.rotateLeft();
+    },
+    // 放大、缩小
+    zoom(num) {
+      num = num || 1;
+      this.$refs.picture.changeScale(num);
+    },
+    // 下载图片
+    async download() {
+      let aLink = document.createElement("a");
+      aLink.download = "下载裁剪图片";
+      let data = await this.$refs.picture.getBase64();
+      aLink.href = data;
+      aLink.click();
+    },
+    // 上传图片之前
+    beforeUploadAction(file) {
+      return new Promise((resolve, reject) => {
+        // 转换为blob
+        var reader = new FileReader();
+        let reg = /\.jpg$|\.jpeg$|\.gif$|\.png$/i;
+        // 转化为base64
+        reader.readAsDataURL(file);
+        let name = file.name;
+        if (reg.test(name)) {
+          reader.onload = (e) => {
+            let data;
+            if (typeof e.target.result === "object") {
+              data = window.URL.createObjectURL(new Blob([e.target.result]));
+            } else {
+              data = e.target.result;
             }
-          } else {
-            this.$message.error('请上传图片')
-            reject()
-          }
-        })
-      },
-      // 上传头像到服务器
-      async uploadAvatar(type){
-        if(type === 'blob'){
-          // 获取截图的blob数据
-          let data = await this.$refs.picture.getBlob()
-          this.uploadPhoto(data)
+            this.initialImg = data;
+            resolve(data);
+          };
+        } else {
+          this.$message.error("请上传图片");
+          reject();
         }
-      },
-      async uploadPhoto(blob){
-        try{
-          const formData = new FormData()
-          formData.append('file',blob,'.jpg')
-          // 上传头像的业务代码...省略
-          this.$message.success('修改头像成功')
-        } catch (error){
-          this.$message.error('修改头像失败')
-        }
+      });
+    },
+    // 上传头像到服务器
+    async uploadAvatar(type) {
+      if (type === "blob") {
+        // 获取截图的blob数据
+        let data = await this.$refs.picture.getBlob();
+        this.uploadPhoto(data);
       }
-    }
-  }
-  </script>
+    },
+    async uploadPhoto(blob) {
+      try {
+        const formData = new FormData();
+        formData.append("file", blob, ".jpg");
+        // 上传头像的业务代码...省略
+        this.$message.success("修改头像成功");
+      } catch (error) {
+        this.$message.error("修改头像失败");
+      }
+    },
+    //语音
+    startRecording() {
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          this.mediaRecorder = new MediaRecorder(stream);
+          this.mediaRecorder.ondataavailable = (e) => {
+            if (e.data.size > 0) {
+              this.recordedChunks.push(e.data);
+            }
+          };
+          this.mediaRecorder.onstop = () => {
+            // 录音结束后的处理，你可以在这里做一些操作，比如保存录音文件等
+            console.log("录音结束？");
+          };
+          this.mediaRecorder.start();
+          this.recording = true;
+        })
+        .catch((err) => {
+          console.error("Error accessing microphone:", err);
+        });
+    },
+    stopRecording() {
+      if (this.mediaRecorder && this.mediaRecorder.state === "recording") {
+        this.mediaRecorder.stop();
+        this.recording = false;
+      }
+    },
+    downloadRecording() {
+      console.log(this.recordedChunks)
+      const blob = new Blob(this.recordedChunks, { type: "audio/mp3" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "recorded.mp3";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    },
+  },
+};
+</script>
    

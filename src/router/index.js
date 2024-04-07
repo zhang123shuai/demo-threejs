@@ -99,7 +99,28 @@ const routes = [
       name: '13-page',
       component: () => import('@/views/13-page/index.vue'),
       meta: {
-        title: '13-bigmap热力图'
+        title: '13-bigemap案例集合'
+      },
+    }, {
+      path: '/14-page',
+      name: '14-page',
+      component: () => import('@/views/14-page/index.vue'),
+      meta: {
+        title: '14-tree树形查询锚点定位'
+      },
+    }, {
+      path: '/15-page',
+      name: '15-page',
+      component: () => import('@/views/15-page/index.vue'),
+      meta: {
+        title: '15-语音录入转文字'
+      },
+    }, {
+      path: '/16-page',
+      name: '16-page',
+      component: () => import('@/views/16-page/index.vue'),
+      meta: {
+        title: '16-语音录入转mp4'
       },
     }]
   }
