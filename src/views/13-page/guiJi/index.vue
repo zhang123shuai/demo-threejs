@@ -19,6 +19,9 @@
           >减速</el-button
         >
       </el-row>
+      <el-row style="margin-top: 10px">
+        <el-button type="primary" @click="isShowbzFun">显隐标注坐标</el-button>
+      </el-row>
     </div>
     <div id="map"></div>
   </div>
@@ -64,13 +67,27 @@ export default {
           address: "四川省成都市锦江区锦江环城生态区",
         },
       ],
-      //   判断轨迹显示隐藏
-      isGuijiShow: true,
+      isGuijiShow: true, //判断轨迹显示隐藏
+      isShowbz: true, //判断标注点显示隐藏
+      //标注点集合
+      bzList: [
+        {
+          zb: [30.15, 104.3],
+          xx: "第一个坐标",
+        },
+        {
+          zb: [30.1, 104],
+          xx: "第②个坐标",
+        },
+      ],
+      //插入标注点地图信息
+      bzListDt: [],
     };
   },
   mounted() {
     this.craetMap(); //初始化地图
     this.guijiFun(); //轨迹线
+    this.crBz(); //插入坐标
   },
   methods: {
     // 初始化地图
@@ -136,20 +153,21 @@ export default {
           this.bjPointFun(
             this.guiJiPoint,
             this.pointList[index],
-            scene[index].address
+            scene[index].address,
+            true
           );
         }
       });
     },
-    // 标记点位  要存储轨迹点的list集合，轨迹点坐标，展示的信息
-    bjPointFun(biaoZhuList, zuiBiao, info) {
+    // 标记点位  要存储轨迹点的list集合，轨迹点坐标，展示的信息,是否鼠标划入展示
+    bjPointFun(biaoZhuList, zuiBiao, info, isHover) {
       biaoZhuList.push(BM.marker(zuiBiao).addTo(this.mapDt));
       //   let cn = BM.marker(zuiBiao).addTo(this.mapDt);
       let guiJiPointlength = biaoZhuList.length - 1;
       biaoZhuList[guiJiPointlength]
         .bindTooltip(`<div>${info}<div>`, {
           direction: "top",
-          permanent: true,
+          permanent: isHover,
           className: "my_tooltip",
         })
         .openTooltip();
@@ -198,6 +216,28 @@ export default {
         this.guijiFun();
         this.isGuijiShow = true;
       }
+    },
+    // 标注点显隐
+    isShowbzFun() {
+      // var marker=BM.marker(map.getCenter(),{draggable:true}).addTo(map);
+      // marker.bindTooltip("my tooltip text").openTooltip();
+      if (this.isShowbz) {
+        if (this.bzListDt.length > 0) {
+          this.bzListDt.forEach((element) => {
+            element.remove();
+          });
+        }
+        this.isShowbz = false;
+      } else {
+        this.crBz();
+        this.isShowbz = true;
+      }
+    },
+    // 插入标注点
+    crBz() {
+      this.bzList.forEach((element) => {
+        this.bjPointFun(this.bzListDt, element.zb, element.xx, false);
+      });
     },
   },
 };
