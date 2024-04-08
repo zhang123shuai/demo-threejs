@@ -12,7 +12,97 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      nodesList: [
+        {
+          name: "操作系统集团",
+          category: 0,
+        },
+        {
+          name: "浏览器有限公司",
+          category: 0,
+        },
+        {
+          name: "HTML科技",
+          category: 0,
+        },
+        {
+          name: "JavaScript科技",
+          category: 0,
+        },
+        {
+          name: "CSS科技",
+          category: 0,
+        },
+        {
+          name: "Chrome",
+          category: 1,
+          gaojing: 0,
+        },
+        {
+          name: "IE",
+          category: 1,
+          gaojing: 0,
+        },
+        {
+          name: "Firefox",
+          category: 1,
+          gaojing: 1,
+        },
+        {
+          name: "Safari",
+          category: 1,
+          gaojing: 0,
+        },
+      ],
+      linksList: [
+        {
+          source: "浏览器有限公司",
+          target: "操作系统集团",
+          name: "参股",
+        },
+        {
+          source: "HTML科技",
+          target: "浏览器有限公司",
+          name: "参股",
+        },
+        {
+          source: "CSS科技",
+          target: "浏览器有限公司",
+          name: "参股",
+        },
+        {
+          source: "JavaScript科技",
+          target: "浏览器有限公司",
+          name: "参股",
+        },
+        {
+          source: "Chrome",
+          target: "浏览器有限公司",
+          name: "董事",
+        },
+        {
+          source: "IE",
+          target: "浏览器有限公司",
+          name: "董事",
+        },
+        {
+          source: "Firefox",
+          target: "浏览器有限公司",
+          name: "董事",
+        },
+        {
+          source: "Safari",
+          target: "浏览器有限公司",
+          name: "董事",
+        },
+        {
+          source: "Chrome",
+          target: "JavaScript科技",
+          name: "法人",
+        },
+      ],
+    };
   },
   created() {},
   mounted() {
@@ -22,96 +112,8 @@ export default {
     oneEcharts() {
       var myChart = this.$echarts.init(document.getElementById("zstupu"));
       let data = {
-        nodes: [
-          {
-            name: "操作系统集团",
-            category: 0,
-          },
-          {
-            name: "浏览器有限公司",
-            category: 0,
-          },
-          {
-            name: "HTML科技",
-            category: 0,
-          },
-          {
-            name: "JavaScript科技",
-            category: 0,
-          },
-          {
-            name: "CSS科技",
-            category: 0,
-          },
-          {
-            name: "Chrome",
-            category: 1,
-            gaojing: 0,
-          },
-          {
-            name: "IE",
-            category: 1,
-            gaojing: 0,
-          },
-          {
-            name: "Firefox",
-            category: 1,
-            gaojing: 1,
-          },
-          {
-            name: "Safari",
-            category: 1,
-            gaojing: 0,
-          },
-        ],
-
-        links: [
-          {
-            source: "浏览器有限公司",
-            target: "操作系统集团",
-            name: "参股",
-          },
-          {
-            source: "HTML科技",
-            target: "浏览器有限公司",
-            name: "参股",
-          },
-          {
-            source: "CSS科技",
-            target: "浏览器有限公司",
-            name: "参股",
-          },
-          {
-            source: "JavaScript科技",
-            target: "浏览器有限公司",
-            name: "参股",
-          },
-          {
-            source: "Chrome",
-            target: "浏览器有限公司",
-            name: "董事",
-          },
-          {
-            source: "IE",
-            target: "浏览器有限公司",
-            name: "董事",
-          },
-          {
-            source: "Firefox",
-            target: "浏览器有限公司",
-            name: "董事",
-          },
-          {
-            source: "Safari",
-            target: "浏览器有限公司",
-            name: "董事",
-          },
-          {
-            source: "Chrome",
-            target: "JavaScript科技",
-            name: "法人",
-          },
-        ],
+        nodes: this.nodesList,
+        links: this.linksList,
       };
 
       const color1 = "#006acc";
@@ -201,7 +203,7 @@ export default {
                   fontSize: 20,
                 },
                 formatter(x) {
-                  console.log(x.data.name,"909090")
+                  console.log(x.data.name, "909090");
                   return x.data.name;
                 },
               },
@@ -218,13 +220,125 @@ export default {
           },
         ],
       };
-      console.log(option,"option")
+      console.log(option, "option");
       myChart.setOption(option);
       // 为树图添加节点点击事件
       myChart.on("click", this.treeNodeclick);
     },
     treeNodeclick(param) {
-      console.log(param,'0000')
+      console.log(param, "0000");
+      if (param.name == "HTML科技") {
+        this.nodesList = [
+          {
+            name: "操作系统集团",
+            category: 0,
+          },
+          {
+            name: "浏览器有限公司",
+            category: 0,
+          },
+          {
+            name: "HTML科技",
+            category: 0,
+          },
+          {
+            name: "JavaScript科技",
+            category: 0,
+          },
+          {
+            name: "CSS科技",
+            category: 0,
+          },
+          {
+            name: "Chrome",
+            category: 1,
+            gaojing: 0,
+          },
+          {
+            name: "IE",
+            category: 1,
+            gaojing: 0,
+          },
+          {
+            name: "Firefox",
+            category: 1,
+            gaojing: 1,
+          },
+          {
+            name: "Safari",
+            category: 1,
+            gaojing: 0,
+          },
+          {
+            name: "小Html-1",
+            category: 1,
+            gaojing: 0,
+          },
+          {
+            name: "小Html-2",
+            category: 1,
+            gaojing: 0,
+          },
+        ];
+        this.linksList = [
+          {
+            source: "浏览器有限公司",
+            target: "操作系统集团",
+            name: "参股",
+          },
+          {
+            source: "HTML科技",
+            target: "浏览器有限公司",
+            name: "参股",
+          },
+          {
+            source: "CSS科技",
+            target: "浏览器有限公司",
+            name: "参股",
+          },
+          {
+            source: "JavaScript科技",
+            target: "浏览器有限公司",
+            name: "参股",
+          },
+          {
+            source: "Chrome",
+            target: "浏览器有限公司",
+            name: "董事",
+          },
+          {
+            source: "IE",
+            target: "浏览器有限公司",
+            name: "董事",
+          },
+          {
+            source: "Firefox",
+            target: "浏览器有限公司",
+            name: "董事",
+          },
+          {
+            source: "Safari",
+            target: "浏览器有限公司",
+            name: "董事",
+          },
+          {
+            source: "Chrome",
+            target: "JavaScript科技",
+            name: "法人",
+          },
+          {
+            source: "小Html-1",
+            target: "HTML科技",
+            name: "小弟",
+          },
+          {
+            source: "小Html-2",
+            target: "HTML科技",
+            name: "小弟",
+          },
+        ];
+        this.oneEcharts();
+      }
       /* true 代表点击的是圆点
        fasle 表示点击的是当前节点的文本
     */
