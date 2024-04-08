@@ -80,14 +80,31 @@ export default {
           xx: "第②个坐标",
         },
       ],
-      //插入标注点地图信息
-      bzListDt: [],
+      bzListDt: [], //插入标注点地图信息
+      //圆List集合
+      circleList: [
+        {
+          radius: 1800,
+          color: "#3388ff",
+          center: [30.15, 104],
+          name: "添加的圆1",
+        },
+        {
+          radius: 2000,
+          color: "#3388ff",
+          center: [30.05, 104],
+          name: "添加的圆2",
+        },
+      ],
+      circleDrawList: [], //绘制圆List集合
     };
   },
   mounted() {
     this.craetMap(); //初始化地图
     this.guijiFun(); //轨迹线
     this.crBz(); //插入坐标
+    this.drawCir(); //进入页面添加已有圆
+    this.drawCircle(); //画圆
   },
   methods: {
     // 初始化地图
@@ -239,6 +256,165 @@ export default {
         this.bjPointFun(this.bzListDt, element.zb, element.xx, false);
       });
     },
+    //进入页面添加已有圆
+    drawCir() {
+      this.circleList.forEach((element, i) => {
+        this.creatCircleFun(
+          element.center,
+          element.radius,
+          element.color,
+          element.name,
+          i,
+          false
+        );
+      });
+    },
+    // 添加圆
+    creatCircleFun(center, radius, color, name, idx, isBool) {
+      //添加圆
+      let circleOne = BM.circle(center, {
+        radius: radius,
+        color: color,
+      }).addTo(this.mapDt);
+      //文字描述
+      circleOne.bindTooltip(name, {
+        direction: "top",
+        permanent: true,
+      });
+      //添加鼠标左键事件
+      circleOne.on("click", (e) => {
+        // circleOne.options.color = "blue";
+        if (e.target.options.color == "red") {
+          return;
+        }
+        console.log(circleOne, "点击的圆", idx + 1);
+        console.log(e, "被点击了");
+        // 查找其他红色圆清除并重新插入
+        this.circleList.forEach((element, i) => {
+          if (element.color == "red") {
+            element.color = "#3388ff";
+            this.circleDrawList[i].remove();
+            this.circleDrawList.splice(i, 1);
+            this.creatCircleFun(
+              this.circleList[i].center,
+              this.circleList[i].radius,
+              this.circleList[i].color,
+              this.circleList[i].name,
+              i,
+              true
+            );
+          }
+        });
+        // 被点击之后删除重新创建，更改选中颜色
+        this.circleDrawList[idx].remove();
+        this.circleDrawList.splice(idx, 1);
+        this.circleList[idx].color = "red";
+        this.creatCircleFun(
+          this.circleList[idx].center,
+          this.circleList[idx].radius,
+          this.circleList[idx].color,
+          this.circleList[idx].name,
+          idx,
+          true
+        );
+        // 将地图移动到圆的中心点位置
+        this.mapDt.flyTo(
+          BM.latLng(
+            this.circleList[idx].center[0],
+            this.circleList[idx].center[1]
+          ),
+          13,
+          { animate: true, duration: 0.5 }
+        );
+      });
+      //添加鼠标右键事件
+      circleOne.on("contextmenu", (e) => {
+        // 二次确认删除
+        this.$confirm("此操作将永久删除该位置, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+          .then(() => {
+            console.log(circleOne, "右击的圆", idx + 1);
+            console.log(e, "被右击了");
+            // 删除并移除
+            this.circleDrawList[idx].remove();
+            this.circleDrawList.splice(idx, 1, {});
+            this.circleList.splice(idx, 1, {});
+            this.$message({
+              type: "success",
+              message: "删除成功!",
+            });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除",
+            });
+          });
+      });
+      if (isBool) {
+        this.circleDrawList.splice(idx, 0, circleOne);
+      } else {
+        this.circleDrawList.push(circleOne);
+      }
+    },
+    //画圆
+    drawCircle() {
+      // 画圆
+      //创建一个图形覆盖物的集合来保存点线面
+      //   var drawnItems = new BM.FeatureGroup();
+      //添加在地图上
+      //   this.mapDt.addLayer(drawnItems);
+      // 为多边形设置一个标题
+      //   BM.drawLocal.draw.toolbar.buttons.polygon = "添加一个多边形";
+      //实例化鼠标绘制的控件
+      var drawControl = new BM.Control.Draw({
+        position: "topright", //位置
+        //控制绘制的图形
+        draw: {
+          polyline: {
+            //单独设置线的颜色为红色，其它为默认颜色
+            shapeOptions: {
+              color: "red",
+            },
+          },
+          polygon: true,
+          circle: true,
+          marker: true,
+        },
+        // edit: { featureGroup: drawnItems },
+      });
+
+      this.mapDt.addControl(drawControl);
+      //监听绘画完成事件
+      this.mapDt.on(BM.Draw.Event.CREATED, (e) => {
+        // var type = e.layerType,
+        //   layer = e.layer;
+        // if (type === "marker") {
+        //   //如果是标注，实现一个点击出现的提示
+        //   layer.bindPopup("A popup!");
+        // }
+        // drawnItems.addLayer(e.layer);
+        console.log(e.layer.options.radius, "半径:米");
+        console.log(e.layer._latlng.lat, e.layer._latlng.lng, "中心点坐标");
+        this.circleList.push({
+          radius: e.layer.options.radius.toFixed(2),
+          color: "#3388ff",
+          center: [e.layer._latlng.lat, e.layer._latlng.lng],
+          name: "创建的圆",
+        });
+        this.creatCircleFun(
+          [e.layer._latlng.lat, e.layer._latlng.lng],
+          e.layer.options.radius.toFixed(2),
+          "#3388ff",
+          "创建的圆",
+          this.circleList.length - 1,
+          false
+        );
+      });
+    },
   },
 };
 </script>
@@ -258,6 +434,13 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
+    /deep/ .bigemap-draw-draw-polyline,
+    /deep/ .bigemap-draw-draw-polygon,
+    /deep/ .bigemap-draw-draw-rectangle,
+    /deep/ .bigemap-draw-draw-marker,
+    /deep/ .bigemap-draw-draw-circlemarker {
+      display: none;
+    }
   }
 }
 </style>

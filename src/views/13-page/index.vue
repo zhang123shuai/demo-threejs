@@ -39,7 +39,7 @@ export default {
   .el-tabs {
     height: 100%;
     /deep/ .el-tabs__content {
-      height: 100%;
+      height: calc(100% - 55px);
     }
     /deep/ .el-tab-pane {
       height: 100% !important;
