@@ -411,11 +411,10 @@ export default {
 .warp {
   width: 100%;
   height: 100%;
-  background-color: aquamarine;
 }
 .tupuWarp {
   width: 900px;
-  height: 900px;
+  height: 800px;
   border: 1px solid #000;
 }
 </style>

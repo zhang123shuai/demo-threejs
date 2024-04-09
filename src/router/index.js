@@ -15,112 +15,63 @@ const routes = [
       name: '1-page',
       component: () => import('@/views/1-page/index.vue'),
       meta: {
-        title: '1-page'
+        title: '1-three.js'
       },
     }, {
       path: '/2-page',
       name: '2-page',
       component: () => import('@/views/2-page/index.vue'),
       meta: {
-        title: '2-page顶点、几何'
+        title: '2-form表单动态验证'
       },
     }, {
       path: '/3-page',
       name: '3-page',
       component: () => import('@/views/3-page/index.vue'),
       meta: {
-        title: '3-form表单动态验证'
+        title: '3-知识图谱'
       },
     }, {
       path: '/4-page',
       name: '4-page',
       component: () => import('@/views/4-page/index.vue'),
       meta: {
-        title: '4-知识图谱d3'
+        title: '4-echarts中国地图'
       },
     }, {
       path: '/5-page',
       name: '5-page',
       component: () => import('@/views/5-page/index.vue'),
       meta: {
-        title: '5-知识图谱d3-他人项目'
+        title: '5-图片裁剪'
       },
     }, {
       path: '/6-page',
       name: '6-page',
       component: () => import('@/views/6-page/index.vue'),
       meta: {
-        title: '6-知识图谱d3练习'
+        title: '6-iframe嵌入项目并传参'
       },
     }, {
       path: '/7-page',
       name: '7-page',
       component: () => import('@/views/7-page/index.vue'),
       meta: {
-        title: '7-知识图谱d3练习'
+        title: '7-bigemap案例集合'
       },
     }, {
       path: '/8-page',
       name: '8-page',
       component: () => import('@/views/8-page/index.vue'),
       meta: {
-        title: '8-echarts中国地图'
+        title: '8-tree树形查询锚点定位'
       },
     }, {
       path: '/9-page',
       name: '9-page',
       component: () => import('@/views/9-page/index.vue'),
       meta: {
-        title: '9-echarts中国地图'
-      },
-    }, {
-      path: '/10-page',
-      name: '10-page',
-      component: () => import('@/views/10-page/index.vue'),
-      meta: {
-        title: '10-知识图谱echarts'
-      },
-    }, {
-      path: '/11-page',
-      name: '11-page',
-      component: () => import('@/views/11-page/index.vue'),
-      meta: {
-        title: '11-图片裁剪'
-      },
-    }, {
-      path: '/12-page',
-      name: '12-page',
-      component: () => import('@/views/12-page/index.vue'),
-      meta: {
-        title: '12-iframe嵌入项目并传参'
-      },
-    }, {
-      path: '/13-page',
-      name: '13-page',
-      component: () => import('@/views/13-page/index.vue'),
-      meta: {
-        title: '13-bigemap案例集合'
-      },
-    }, {
-      path: '/14-page',
-      name: '14-page',
-      component: () => import('@/views/14-page/index.vue'),
-      meta: {
-        title: '14-tree树形查询锚点定位'
-      },
-    }, {
-      path: '/15-page',
-      name: '15-page',
-      component: () => import('@/views/15-page/index.vue'),
-      meta: {
-        title: '15-语音录入转文字'
-      },
-    }, {
-      path: '/16-page',
-      name: '16-page',
-      component: () => import('@/views/16-page/index.vue'),
-      meta: {
-        title: '16-语音录入转mp4'
+        title: '9-语音录入'
       },
     }]
   }
