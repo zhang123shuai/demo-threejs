@@ -1,11 +1,11 @@
 <template>
   <div class="warp">
-    <div id="aaa"></div>
+    <!-- 图谱 -->
+    <div id="zstupu" class="tupuWarp"></div>
+    <!-- 动态线 -->
     <div class="big">
       <div class="line line-left line1"></div>
     </div>
-    <!-- 图谱 -->
-    <div id="zstupu" class="tupuWarp"></div>
   </div>
 </template>
 
@@ -412,10 +412,6 @@ export default {
   width: 100%;
   height: 100%;
   background-color: aquamarine;
-}
-#aaa {
-  width: 500px;
-  height: 500px;
 }
 .tupuWarp {
   width: 900px;

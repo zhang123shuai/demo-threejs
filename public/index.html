@@ -14,23 +14,32 @@
       软件下载地址 http://www.bigemap.com/reader/download/detail201802017.html
     -->
   <link href='http://www.bigemap.com:9000/bigemap.js/v2.1.0/bigemap.css' rel='stylesheet' />
-  <link href="http://www.bigemap.com/Public/css/button.min.css" rel="stylesheet">
-  <!-- <link href='./static/bigeMap/bigemap.css' rel='stylesheet' /> -->
-  <!-- <link href='./static/bigeMap/button.min.css' rel='stylesheet' /> -->
+  <!-- <link href="http://www.bigemap.com/Public/css/button.min.css" rel="stylesheet"> -->
   <!--
       JS地址请使用：
       http://localhost:9000/bigemap.js/v2.1.0/bigemap.js
     -->
   <script src='http://www.bigemap.com:9000/bigemap.js/v2.1.0/bigemap.js'></script>
-  <!-- <script src='./static/bigeMap/bigemap.js'></script> -->
   <!--引入示例JS文件-热力图  相关下载地址 http://www.bigemap.com/Public/offline/heat_map/heat.zip-->
-  <script src="./static/bigeMap/heat.js"></script>
   <!-- 轨迹回放 -->
-  <script type="text/javascript" src="http://www.bigemap.com/Public/offline/js/moveMarker.js"></script>
-  <script type="text/javascript" src="http://www.bigemap.com/Public/offline/js/bm.geometryutil.js"></script>
+  <!-- <script type="text/javascript" src="http://www.bigemap.com/Public/offline/js/moveMarker.js"></script>
+  <script type="text/javascript" src="http://www.bigemap.com/Public/offline/js/bm.geometryutil.js"></script> -->
+  <!-- 鼠标绘制 -->
   <!--对应下面的CSS+JS的下载地址 请直接访问 http://bigemap.com/public/mouse_draw/mouse_draw.zip 来下载-->
-  <link rel="stylesheet" href="http://www.bigemap.com/Public/mouse_draw/Bigemap.draw.css" />
-  <script src="http://www.bigemap.com/Public/js/bm.draw.min.js"></script>
+  <!-- <link rel="stylesheet" href="http://www.bigemap.com/Public/mouse_draw/Bigemap.draw.css" />
+  <script src="http://www.bigemap.com/Public/js/bm.draw.min.js"></script> -->
+
+  <!-- <link href='./static/bigeMap/bigemap.css' rel='stylesheet' />
+  <script src='./static/bigeMap/bigemap.js'></script> -->
+  <link rel='stylesheet' href='./static/bigeMap/button.min.css' />
+  <!-- 轨迹回放 -->
+  <script type="text/javascript" src="./static/bigeMap/moveMarker.js"></script>
+  <script type="text/javascript" src="./static/bigeMap/bm.geometryutil.js"></script>
+  <!-- 鼠标绘制 -->
+  <link rel="stylesheet" href="./static/bigeMap/Bigemap.draw.css" />
+  <script type="text/javascript" src="./static/bigeMap/bm.draw.min.js"></script>
+  <!-- 热力图 -->
+  <script type="text/javascript" src="./static/bigeMap/heat.js"></script>
   <title>
     <%= htmlWebpackPlugin.options.title %>
   </title>

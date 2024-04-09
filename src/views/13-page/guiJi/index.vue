@@ -31,6 +31,7 @@
 export default {
   data() {
     return {
+      // weizhiIcon: require("@/assets/marker-icon-2x.png"),
       mapDt: null, //地图
       modelIcon: null, //轨迹模型
       polyline: null, //轨迹线
@@ -178,7 +179,17 @@ export default {
     },
     // 标记点位  要存储轨迹点的list集合，轨迹点坐标，展示的信息,是否鼠标划入展示
     bjPointFun(biaoZhuList, zuiBiao, info, isHover) {
-      biaoZhuList.push(BM.marker(zuiBiao).addTo(this.mapDt));
+      biaoZhuList.push(
+        BM.marker(
+          zuiBiao
+          // , {
+          //   icon: BM.icon({
+          //     iconUrl: "http://www.bigemap.com/Public/offline/car.png",
+          //     iconAnchor: [25, 15],
+          //   }),
+          // }
+        ).addTo(this.mapDt)
+      );
       //   let cn = BM.marker(zuiBiao).addTo(this.mapDt);
       let guiJiPointlength = biaoZhuList.length - 1;
       biaoZhuList[guiJiPointlength]

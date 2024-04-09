@@ -78,7 +78,7 @@ const routes = [
       name: '10-page',
       component: () => import('@/views/10-page/index.vue'),
       meta: {
-        title: '10-echarts柱状图'
+        title: '10-知识图谱echarts'
       },
     }, {
       path: '/11-page',

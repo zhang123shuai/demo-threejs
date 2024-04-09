@@ -7,8 +7,8 @@
       <el-tab-pane label="轨迹" name="2">
         <guiJi v-if="activeName == '2'" />
       </el-tab-pane>
-      <el-tab-pane label="角色管理" name="3">角色管理</el-tab-pane>
-      <el-tab-pane label="定时任务补偿" name="4">定时任务补偿</el-tab-pane>
+      <!-- <el-tab-pane label="角色管理" name="3">角色管理</el-tab-pane>
+      <el-tab-pane label="定时任务补偿" name="4">定时任务补偿</el-tab-pane> -->
     </el-tabs>
   </div>
 </template>
