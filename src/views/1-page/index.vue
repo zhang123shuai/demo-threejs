@@ -7,8 +7,10 @@
       <el-tab-pane label="page顶点,几何" name="2">
         <pageTwo v-if="activeName == '2'" />
       </el-tab-pane>
-      <!-- <el-tab-pane label="角色管理" name="3">角色管理</el-tab-pane>
-      <el-tab-pane label="定时任务补偿" name="4">定时任务补偿</el-tab-pane> -->
+      <el-tab-pane label="fbx模型加载" name="3">
+        <pageThree v-if="activeName == '3'" />
+      </el-tab-pane>
+      <!-- <el-tab-pane label="定时任务补偿" name="4">定时任务补偿</el-tab-pane> --> -->
     </el-tabs>
   </div>
 </template>
@@ -16,8 +18,9 @@
   <script>
 import pageOne from "./pageOne/index.vue";
 import pageTwo from "./pageTwo/index.vue";
+import pageThree from "./pageThree/index.vue";
 export default {
-  components: { pageOne, pageTwo },
+  components: { pageOne, pageTwo, pageThree },
   data() {
     return {
       activeName: "1",

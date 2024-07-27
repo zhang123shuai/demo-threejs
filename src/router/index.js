@@ -73,6 +73,13 @@ const routes = [
       meta: {
         title: '9-语音录入'
       },
+    }, {
+      path: '/10-page',
+      name: '10-page',
+      component: () => import('@/views/10-page/index.vue'),
+      meta: {
+        title: '10-思维导图'
+      },
     }]
   }
 ]
