@@ -80,6 +80,13 @@ const routes = [
       meta: {
         title: '10-思维导图'
       },
+    }, {
+      path: '/11-page',
+      name: '11-page',
+      component: () => import('@/views/11-page/index.vue'),
+      meta: {
+        title: '11-css'
+      },
     }]
   }
 ]

@@ -1,0 +1,13 @@
+import * as turf from "./turf.min.js";
+
+
+      // 计算中心点
+      // 创建多边形对象
+      const polygon = turf.polygon(
+        testJson.features[0].geometry.coordinates[0]
+      );
+      // 计算多边形的质心点
+      const center = turf.centerOfMass(polygon);
+      // 获取中线点的经纬度
+      let centerPoint = center.geometry.coordinates;
+      console.log(centerPoint, "this.centerPoint");

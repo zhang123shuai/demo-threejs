@@ -1,0 +1,84 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": 4714,
+            "properties": {
+                "_draw_type": "line"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        120.00,
+                        30.36
+                    ],
+                    [
+                        120.13,
+                        30.36
+                    ],
+                    [
+                        120.13,
+                        30.30
+                    ],
+                    [
+                        120.00,
+                        30.30
+                    ],
+                    [
+                        120.00,
+                        30.36
+                    ]
+                    
+                ]
+            },
+            "bbox": [
+                105.36700006,
+                38.0615604,
+                106.17270468,
+                38.69026724
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": 1300,
+            "properties": {
+                "_draw_type": "point"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    105.76425477,
+                    38.79210413
+                ]
+            },
+            "bbox": [
+                105.76425477,
+                38.79210413,
+                105.76425477,
+                38.79210413
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": 1535,
+            "properties": {
+                "_draw_type": "point"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.18203001,
+                    38.63347649
+                ]
+            },
+            "bbox": [
+                106.18203001,
+                38.63347649,
+                106.18203001,
+                38.63347649
+            ]
+        }
+    ]
+}

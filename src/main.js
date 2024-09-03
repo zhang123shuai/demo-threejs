@@ -13,6 +13,26 @@ Vue.prototype.$echarts = echarts;
 
 Vue.config.productionTip = false
 
+import L from "leaflet"
+Vue.use(L)
+// import "leaflet-trackplayer"
+import "leaflet/dist/leaflet.css"
+
+// import { Feature, Geometry, Layer, TiledMapLayer } from "../public/static/superMap/iclient-leaflet-es6.min.js"
+import TiledMapLayer from "../public/static/superMap/iclient-leaflet-es6.min.js"
+Vue.use(TiledMapLayer)
+
+import Feature from "../public/static/superMap/iclient-leaflet-es6.min.js"
+Vue.use(Feature)
+
+import Geometry from "../public/static/superMap/iclient-leaflet-es6.min.js"
+Vue.use(Geometry)
+
+import Layer from "../public/static/superMap/iclient-leaflet-es6.min.js"
+Vue.use(Layer)
+
+import TrackPlayer from "../public/static/superMap/leaflet-trackplayer.umd.cjs"
+Vue.use(TrackPlayer)
 
 new Vue({
   router,
