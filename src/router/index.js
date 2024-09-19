@@ -85,7 +85,7 @@ const routes = [
       name: '11-page',
       component: () => import('@/views/11-page/index.vue'),
       meta: {
-        title: '11-css'
+        title: '11-superMap'
       },
     }]
   }
