@@ -13,6 +13,9 @@
       <el-tab-pane label="superMap-3d-Cesium" name="4">
         <four v-if="activeName == '4'" />
       </el-tab-pane>
+      <el-tab-pane label="superMap轨迹-边走边画" name="5">
+        <five v-if="activeName == '5'" />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -22,8 +25,9 @@ import one from "./one/index.vue";
 import two from "./two/index.vue";
 import three from "./three/index.vue";
 import four from "./four/index.vue";
+import five from "./five/index.vue";
 export default {
-  components: { one, two, three, four },
+  components: { one, two, three, four,five },
   data() {
     return {
       activeName: "1",

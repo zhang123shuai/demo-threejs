@@ -10,7 +10,12 @@
       <el-tab-pane label="pdf" name="3">
         <three v-if="activeName == '3'" />
       </el-tab-pane>
-      <!-- <el-tab-pane label="定时任务补偿" name="4">定时任务补偿</el-tab-pane> -->
+      <el-tab-pane label="预览docx离线" name="4">
+        <four v-if="activeName == '4'" />
+      </el-tab-pane>
+      <el-tab-pane label="文件路径选择" name="5">
+        <five v-if="activeName == '5'" />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -19,8 +24,10 @@
 import one from "./one/index.vue";
 import two from "./two/index.vue";
 import three from "./three/index.vue";
+import four from "./four/index.vue";
+import five from "./five/index.vue";
 export default {
-  components: { one, two, three },
+  components: { one, two, three, four, five },
   data() {
     return {
       activeName: "1",

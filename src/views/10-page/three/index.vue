@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      fileUrl: "/static/12.pdf", //文件路径
+      fileUrl: "/static/12.pdf#toolbar=0", //文件路径
       pageNum: 1,
       pageTotalNum: 1,
       pageRotate: 0,
