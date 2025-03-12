@@ -62,6 +62,11 @@ export default {
           name: "参股",
         },
         {
+          source: "操作系统集团",
+          target: "浏览器有限公司",
+          name: "参股返回",
+        },
+        {
           source: "HTML科技",
           target: "浏览器有限公司",
           name: "参股",
@@ -217,6 +222,13 @@ export default {
             },
             data: data.nodes,
             links: data.links,
+            lineStyle: {
+              normal: {
+                opacity: 0.9,
+                width: 2,
+                curveness: 0.1, // 设置直线，不弯曲
+              },
+            },
           },
         ],
       };

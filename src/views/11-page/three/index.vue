@@ -623,18 +623,18 @@ export default {
       //   },
       // ],
       track: null,
-      path:[
+      path: [
         {
-          lat:'39.956043',
-          lon:'116.83448',
+          lat: "39.956043",
+          lon: "116.83448",
         },
         {
-          lat:'39.953972',
-          lon:'116.833969',
+          lat: "39.953972",
+          lon: "116.833969",
         },
         {
-          lat:'39.952309',
-          lon:'116.837547',
+          lat: "39.952309",
+          lon: "116.837547",
         },
       ],
       sliderProgress: 0,
@@ -743,6 +743,8 @@ export default {
           iconUrl: CAR,
           iconSize: [27, 54],
         }),
+        rotationOrigin: "center",
+        rotationAngle: 121 / 2,
       }).addTo(this.supMap);
     },
     getGuijiFun() {
@@ -797,12 +799,37 @@ export default {
       // 添加监听事件
       this.track.on("progress", (progress, { lng, lat }, index) => {
         this.sliderProgress = progress * 100;
-        console.log(
-          `progress:${progress.toFixed(2)} - position:${lng.toFixed(
-            2
-          )},${lat.toFixed(2)} - trackIndex:${index}`
-        );
+        // console.log(
+        //   `progress:${progress.toFixed(2)} - position:${lng.toFixed(
+        //     2
+        //   )},${lat.toFixed(2)} - trackIndex:${index}`
+        // );
+        if (index < this.path.length - 1) {
+          this.calculateAngle(this.path[index], this.path[index + 1]);
+        }
       });
+    },
+    // 计算两个经纬度点之间的角度
+    calculateAngle(point1, point2) {
+      let lat1 = point1.lat;
+      let lon1 = point1.lon;
+      let lat2 = point2.lat;
+      let lon2 = point2.lon;
+      const toRadians = (deg) => (deg * Math.PI) / 180;
+      const toDegrees = (rad) => (rad * 180) / Math.PI;
+
+      const φ1 = toRadians(lat1);
+      const φ2 = toRadians(lat2);
+      const Δλ = toRadians(lon2 - lon1);
+
+      const y = Math.sin(Δλ) * Math.cos(φ2);
+      const x =
+        Math.cos(φ1) * Math.sin(φ2) -
+        Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+
+      const bearing = toDegrees(Math.atan2(y, x));
+      // return (bearing + 360) % 360; // 保证角度为0-360度之间
+      console.log((bearing + 360) % 360, "计算的角度");
     },
     calculateBearing(start, end) {
       console.log(start, end);

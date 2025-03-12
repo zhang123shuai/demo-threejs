@@ -36,7 +36,7 @@ const routes = [
       name: '4-page',
       component: () => import('@/views/4-page/index.vue'),
       meta: {
-        title: '4-echarts中国地图'
+        title: '4-echarts'
       },
     }, {
       path: '/5-page',
@@ -86,6 +86,20 @@ const routes = [
       component: () => import('@/views/11-page/index.vue'),
       meta: {
         title: '11-superMap'
+      },
+    }, {
+      path: '/12-page',
+      name: '12-page',
+      component: () => import('@/views/12-page/index.vue'),
+      meta: {
+        title: '12-element'
+      },
+    }, {
+      path: '/13-page',
+      name: '13-page',
+      component: () => import('@/views/13-page/index.vue'),
+      meta: {
+        title: '13-antv X6'
       },
     }]
   }
