@@ -112,7 +112,7 @@ export default {
     craetMap() {
       BM.Config.HTTP_URL = "http://www.bigemap.com:9000";
       // 在ID为map的元素中实例化一个地图，不要设置地图ID，ID号程序自动生成，无需手动配置，设置中心点，默认的级别和显示级别控件
-      this.mapDt = BM.map("map", "bigemap.arcgis-map", {
+      this.mapDt = BM.map("map", "bigemap.amap-map", {
         center: [30, 104],
         zoom: 5,
         zoomControl: true, //级别控制

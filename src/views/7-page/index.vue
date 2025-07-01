@@ -7,8 +7,11 @@
       <el-tab-pane label="轨迹" name="2">
         <guiJi v-if="activeName == '2'" />
       </el-tab-pane>
-      <el-tab-pane label="区域" name="3">
-        <quyu v-if="activeName == '3'" />
+      <el-tab-pane label="多轨迹" name="3">
+        <moreGuiJi v-if="activeName == '3'" />
+      </el-tab-pane>
+      <el-tab-pane label="区域" name="4">
+        <quyu v-if="activeName == '4'" />
       </el-tab-pane>
       <!-- <el-tab-pane label="定时任务补偿" name="4">定时任务补偿</el-tab-pane> -->
     </el-tabs>
@@ -18,9 +21,10 @@
   <script>
 import reLiTu from "./reLiTu/index.vue";
 import guiJi from "./guiJi/index.vue";
+import moreGuiJi from "./moreGuiJi/index.vue";
 import quyu from "./quyu/index.vue";
 export default {
-  components: { reLiTu, guiJi,quyu },
+  components: { reLiTu, guiJi, moreGuiJi, quyu },
   data() {
     return {
       activeName: "2",

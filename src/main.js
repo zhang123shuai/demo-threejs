@@ -34,6 +34,14 @@ Vue.use(Layer)
 import TrackPlayer from "../public/static/superMap/leaflet-trackplayer.umd.cjs"
 Vue.use(TrackPlayer)
 
+import canvasIconLayer from "../public/static/superMap/leaflet.canvas-markers.js"
+Vue.use(canvasIconLayer)
+
+// import canvasMarkerLayer from "../public/static/superMap/leaflet.canvasmarker.min.js"
+// Vue.use(canvasMarkerLayer)
+
+// import 'leaflet-canvas-marker'
+
 new Vue({
   router,
   store,
